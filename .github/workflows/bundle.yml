@@ -1,0 +1,30 @@
+name: Install Gems
+
+on:
+  push:
+    branches:
+      - main  # Adjust to your default branch name if it's different
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'  # or the version specified in your Gemfile if different
+
+    - name: Install Bundler and Gems
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Commit Gemfile.lock
+      run: |
+        git add Gemfile.lock
+        git commit -m "Add Gemfile.lock"
+        git push
